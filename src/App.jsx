@@ -1,21 +1,11 @@
-import LiveOrders from "./admin/pages/LiveOrders";
+import SidebarLayout from "./admin/layouts/SidebarLayout";
+import TestGround from "./assets/TestGround";
 
 const App = () => {
   return (
     <>
-      <LiveOrders />
-      {/* <aside>
-        <Sidebar />
-      </aside>
-      <header>
-        <Header />
-      </header>
-      <main>
-        <MenuMainPage />
-      </main>
-      <footer>
-        <Footer />
-      </footer> */}
+      {/* <SidebarLayout /> */}
+      <TestGround />
     </>
   );
 };
