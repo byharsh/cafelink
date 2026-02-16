@@ -1,12 +1,22 @@
 import { useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
+import { useForm } from "react-hook-form";
 
 import { MenuItem } from "../components";
 
 export const Inventory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
+
+  const { handleSubmit, register, reset } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    addItem(data);
+    setIsModalOpen(false);
+    reset();
+  };
 
   const createMenu = (menu) => ({
     id: uuidv4(),
@@ -19,7 +29,7 @@ export const Inventory = () => {
     inStock: true,
   });
 
-  const handleSubmit = (e) => {
+  const handleTheSubmit = (e) => {
     e.preventDefault();
     addItem(e);
   };
@@ -84,46 +94,116 @@ export const Inventory = () => {
         </button>
       </div>
 
+      {/* <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="border-gray-500 border rounded-sm"
+      >
+        <input
+          {...register("itemName", { required: true })}
+          placeholder="Your Item Name🙄"
+        />
+        <button
+          type="submit"
+          className="bg-slate-300 border border-slate-400 drop-shadow-xs rounded-md px-4 py-2 text-red-600 cursor-pointer"
+        >
+          Submit
+        </button>
+      </form> */}
+
+      {/* ------ */}
       {isModalOpen && (
         <div className="is-overlay">
-          <div className="is-container bg-red-400">
-            <form action="submit" onSubmit={handleSubmit}>
-              <div className="is-content">
-                <div>
+          <div className="is-container ">
+            <form onSubmit={handleSubmit(onSubmit)} className="">
+              <div className="is-content flex flex-col gap-4">
+                <div className="bg-gray-100 mx-auto ">
                   <input type="image" />
                 </div>
-                <div>
-                  <label htmlFor="">
-                    <span>Item Name</span>
-                    <input type="text" placeholder="Pizza or salad" />
-                  </label>
-
-                  <label htmlFor="">
-                    <span>Size</span>
-                    <input type="text" placeholder="small, medium, std" />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="">
-                    <span>Item Ingridents</span>
-                    <input type="text" placeholder="somethig like potato?" />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="">
-                    <span>Portion</span>
+                <div className="flex gap-4">
+                  <label
+                    htmlFor="item-name"
+                    className="flex items-center gap-2"
+                  >
+                    <span>Item Name:</span>
                     <input
-                      type="text"
-                      placeholder="size of something or weight"
+                      {...register("itemName", { required: true })}
+                      className="p-1 placeholder-gray-400 focus:outline-1 focus:outline-red-700  "
+                      placeholder="Pizza or salad"
+                      id="item-name"
                     />
                   </label>
-                  <label htmlFor="">
-                    <span>Price</span>
-                    <input type="text" placeholder="price in rupees" />
+
+                  <label
+                    htmlFor="item-size"
+                    className="flex items-center gap-2"
+                  >
+                    <span>Size:</span>
+                    <input
+                      {...register("size", { required: true })}
+                      className="p-1 placeholder-gray-400 focus:outline-1"
+                      placeholder="small, medium, std"
+                      id="item-size"
+                    />
                   </label>
                 </div>
-                <button onClick={() => setIsModalOpen(false)}>Cancel</button>
-                <button type="submit">Submit</button>
+                <div>
+                  <label
+                    htmlFor="item-ingredients"
+                    className="flex items-center gap-2"
+                  >
+                    <span>Item Ingridients:</span>
+                    <input
+                      {...register("itemIngridients", { required: true })}
+                      className="p-1 placeholder-gray-400 focus:outline-1"
+                      placeholder="somethig like potato?"
+                      id="item-ingredients"
+                    />
+                  </label>
+                </div>
+                <div className="flex gap-10">
+                  <label
+                    htmlFor="item-portion"
+                    className="flex items-center gap-2"
+                  >
+                    <span>Portion:</span>
+                    <input
+                      {...register("Portion", { required: true })}
+                      className="p-1 placeholder-gray-400 focus:outline-1"
+                      placeholder="size of something or weight"
+                      id="item-portion"
+                    />
+                  </label>
+                  <label
+                    htmlFor="item-price"
+                    className="flex items-center gap-2"
+                  >
+                    <span>Price:</span>
+                    <input
+                      {...register("price", {
+                        required: true,
+                        valueAsNumber: true,
+                      })}
+                      className="p-1 placeholder-gray-400 focus:outline-1"
+                      placeholder="price in rupees"
+                      id="item-price"
+                    />
+                  </label>
+                </div>
+                <div className="flex">
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="bg-red-200 flex-1 cursor-pointer"
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-red-500 flex-1 cursor-pointer"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </form>
           </div>
