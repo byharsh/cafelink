@@ -1,6 +1,28 @@
-export const MenuItem = ({ title, size, price, image, type, inStock, onButtonClick }) => {
+import { useState } from "react";
+import { Tooltip } from "./Tooltip";
+
+export const MenuItem = ({
+  title,
+  size,
+  price,
+  image,
+  type,
+  inStock,
+  onEdit,
+  onDelete,
+}) => {
+  const [isToolTipOpen, setIsToolTipOpen] = useState(false);
+
+  const handleEdit = () => {
+    onEdit();
+    setIsToolTipOpen(false);
+  };
+  const handleDelete = () => {
+    onDelete();
+    setIsToolTipOpen(false);
+  };
   return (
-    <div className="flex flex-col w-full h-[400px] bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+    <div className="relative flex flex-col w-full h-[400px] bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
       {/* First Section: Image (60% of card height) */}
       <div className="relative h-[240px] bg-gray-200 flex-shrink-0">
         <img
@@ -8,14 +30,15 @@ export const MenuItem = ({ title, size, price, image, type, inStock, onButtonCli
           alt={title}
           className="w-full h-full object-cover"
         />
+
         {/* Button in right top corner */}
         <button
-          onClick={onButtonClick}
+          onClick={() => setIsToolTipOpen(!isToolTipOpen)}
           className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors"
           aria-label="Menu item action"
         >
           <svg
-            className="w-5 h-5 text-gray-700"
+            className="w-5 h-5 text-gray-700 "
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -29,19 +52,25 @@ export const MenuItem = ({ title, size, price, image, type, inStock, onButtonCli
           </svg>
         </button>
       </div>
-
+      {isToolTipOpen && (
+        <Tooltip triggerOnEdit={handleEdit} triggerOnDelete={handleDelete} />
+      )}
       {/* Second Section: Content (40% of card height) */}
       <div className="flex-1 p-4 flex flex-col min-h-[160px]">
         {/* First part: Contains two horizontal parts */}
         <div className="flex items-start justify-between mb-3">
           {/* First horizontal part: Title with size vertically aligned */}
           <div className="flex flex-col flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 leading-tight">{title}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 leading-tight">
+              {title}
+            </h3>
             <span className="text-sm text-gray-600 mt-1">{size}</span>
           </div>
           {/* Second horizontal part: Price aligned horizontally with title */}
           <div className="flex items-start ml-4">
-            <span className="text-lg font-semibold text-gray-900 leading-tight">{price}</span>
+            <span className="text-lg font-semibold text-gray-900 leading-tight">
+              {price}
+            </span>
           </div>
         </div>
 
@@ -52,7 +81,9 @@ export const MenuItem = ({ title, size, price, image, type, inStock, onButtonCli
         <div className="flex items-center justify-between mt-auto">
           {/* Left: Type chip */}
           <div className="px-3 py-1.5 bg-gray-100 rounded-full">
-            <span className="text-sm font-medium text-gray-700">{type || "Std."}</span>
+            <span className="text-sm font-medium text-gray-700">
+              {type || "Std."}
+            </span>
           </div>
 
           {/* Right: Stock status chip with icon */}
@@ -94,9 +125,7 @@ export const MenuItem = ({ title, size, price, image, type, inStock, onButtonCli
             {/* Text */}
             <span
               className={`text-sm font-medium ${
-                inStock
-                  ? "text-green-700 font-semibold"
-                  : "text-gray-500"
+                inStock ? "text-green-700 font-semibold" : "text-gray-500"
               }`}
             >
               {inStock ? "In Stock" : "Out of Stock"}
