@@ -2,8 +2,10 @@ import { NavLink } from "react-router-dom";
 
 export const MenuTab = ({ link, title }) => {
   return (
-    <li>
-      <NavLink to={link}>{title}</NavLink>
+    <li className="py-2 ">
+      <NavLink to={link} className="text-base font-semibold">
+        {title}
+      </NavLink>
     </li>
   );
 };
