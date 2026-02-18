@@ -5,7 +5,7 @@ import logo from "../../assets/Logo.png";
 
 export const Sidebar = () => {
   return (
-    <div className="min-w-75 pt-10 h-dvh overflow-hidden">
+    <div className="min-w-72 pt-10 h-dvh overflow-hidden">
       <div className="h-full  flex flex-col gap-16">
         <div className="mx-auto">
           <img src={logo} alt="cafelink Logo" width={"150px"} />
