@@ -3,12 +3,12 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useForm } from "react-hook-form";
 
-import { MenuItem } from "../components";
+import { AutoConfirmModal, ConfirmationModal, MenuItem } from "../components";
 
 export const Inventory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
-
+  const [Openhai, setOpenhai] = useState(false);
   const {
     handleSubmit,
     register,
@@ -278,6 +278,11 @@ export const Inventory = () => {
         </div>
       )}
 
+      <button onClick={() => setOpenhai(!Openhai)} className="bg-gray-400 text-white px-4 py-2 rounded-md cursor-pointer" >Modal</button>
+      
+      <AutoConfirmModal isOpen={Openhai} onClose={() => setOpenhai(false)} onConfirm={() => setOpenhai(false)} message="Are you sure you want to delete this item?" />
+      
+      
       <div className="grid grid-cols-3 gap-6">
         {menuItems.map((item) => (
           <MenuItem
